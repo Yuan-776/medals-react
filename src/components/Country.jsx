@@ -1,25 +1,22 @@
-
-import { useState } from "react";
-
-function Country() {
-  const [name, setName] = useState("United States");
-  const [gold, setGold] = useState(0);
-
-  function handleClick() {
-    setGold(gold + 1);
-  }
-
+export default function Country({ country, onDelete }) {
   return (
     <div className="country">
-      <div className="country-name">{name}</div>
-      <div className="medal-container">
-        <div className="medal-count">Gold medals: {gold}</div>
-        <button className="medal-button" onClick={handleClick}>
-          +
+      <div className="country-header">
+        <div className="country-name">{country.name}</div>
+        <button 
+          className="delete-button" 
+          onClick={(e) => {
+            e.stopPropagation();
+            onDelete(country.id);
+          }}
+          aria-label="Delete country"
+        >
+          🗑️
         </button>
+      </div>
+      <div className="medal-info">
+        Gold medals: {country.gold}
       </div>
     </div>
   );
 }
-
-export default Country;

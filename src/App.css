@@ -1,59 +1,49 @@
 .app-header {
-  font-size: 4rem;
-  color: var(--main-color);
-  user-select: none;
+  font-size: 2rem;
   text-align: center;
   margin: 2rem 0;
 }
 
+.countries-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1rem;
+  justify-content: center;
+}
+
 .country {
-  background: white;
-  border: 1px solid #ccc;
+  border: 2px solid #000;
   border-radius: 8px;
   width: 300px;
-  margin: 2rem auto;
-  overflow: hidden;
+  background: white;
 }
 
-.country-name {
-  font-size: 1.5rem;
-  padding: 0.75rem;
-  border-bottom: 1px solid #ccc;
-  font-weight: bold;
-}
-
-.medal-container {
+.country-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.75rem;
+  padding: 0.5rem;
+  border-bottom: 2px solid #000;
 }
 
-.medal-count {
-  font-size: 1rem;
+.country-name {
+  font-size: 1.25rem;
+  font-weight: bold;
 }
 
-.medal-button {
+.delete-button {
   background: none;
-  border: 1px solid #ccc;
-  border-radius: 50%;
-  width: 24px;
-  height: 24px;
+  border: none;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.2rem;
   padding: 0;
-  line-height: 1;
+  opacity: 0.5;
 }
 
-.medal-button:hover {
-  background-color: #f0f0f0;
+.delete-button:hover {
+  opacity: 1;
 }
 
-@media screen and (min-width: 600px) {
-  .app-header {
-    font-size: 5rem;
-  }
+.medal-info {
+  padding: 0.5rem;
 }
