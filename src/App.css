@@ -23,12 +23,12 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.5rem;
+  padding: 0.75rem;
   border-bottom: 2px solid #000;
 }
 
 .country-name {
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   font-weight: bold;
 }
 
@@ -38,12 +38,18 @@
   cursor: pointer;
   padding: 0;
   opacity: 0.5;
+  font-size: 1.2rem;
 }
 
 .delete-button:hover {
   opacity: 1;
 }
 
-.medal-info {
-  padding: 0.5rem;
+.medals-container {
+  padding: 0.5rem 0;
+}
+
+.medal-row {
+  padding: 0.5rem 0.75rem;
+  font-size: 1.1rem;
 }

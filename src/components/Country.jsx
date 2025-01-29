@@ -1,4 +1,6 @@
-export default function Country({ country, onDelete }) {
+import Medal from "./Medal";
+
+export default function Country({ country, medals, onDelete }) {
   return (
     <div className="country">
       <div className="country-header">
@@ -14,8 +16,10 @@ export default function Country({ country, onDelete }) {
           🗑️
         </button>
       </div>
-      <div className="medal-info">
-        Gold medals: {country.gold}
+      <div className="medals-container">
+        {medals.map(medal => (
+          <Medal key={medal.id} name={medal.name} />
+        ))}
       </div>
     </div>
   );
