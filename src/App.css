@@ -4,6 +4,12 @@
   margin: 2rem 0;
 }
 
+.medal-totals {
+  font-size: 1rem;
+  margin-top: 0.5rem;
+  color: #666;
+}
+
 .countries-container {
   display: flex;
   flex-wrap: wrap;
@@ -52,4 +58,32 @@
 .medal-row {
   padding: 0.5rem 0.75rem;
   font-size: 1.1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.medal-controls {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.medal-count {
+  min-width: 1rem;
+  text-align: center;
+}
+
+.medal-button {
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid #ccc;
+  background: #f0f0f0;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.medal-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
