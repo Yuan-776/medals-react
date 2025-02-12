@@ -87,3 +87,82 @@
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+#trigger {
+  position: fixed;
+  left: 0.8rem;
+  bottom: 0.8rem;
+  cursor: pointer;
+  z-index: 80;
+  transform: scale(80%, 80%);
+  transition: transform 150ms ease-in-out;
+}
+
+#trigger:hover {
+  transform: rotate(90deg) scale(100%, 100%);
+}
+
+#dialog,
+#dialog * {
+  box-sizing: border-box;
+  border-radius: 0.3em;
+}
+
+#dialog {
+  background: white;
+  padding: 1rem;
+  width: 300px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+  display: grid;
+  gap: 0.8rem;
+}
+
+#dialog h2 {
+  margin: 0;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: normal;
+}
+
+#dialog #text {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+#dialog button {
+  width: 100%;
+  padding: 0.5rem;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+#save {
+  background: #ccc;
+}
+
+#save:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+#cancel {
+  background: white;
+  border: 1px solid #ccc !important;
+}
+
+#overlay {
+  background-color: rgba(255, 255, 255, 0.3);
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 90;
+}

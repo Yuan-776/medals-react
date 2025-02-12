@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Country from "./components/Country";
+import NewCountry from "./components/NewCountry";
 import "./App.css";
 
 function App() {
@@ -10,7 +11,6 @@ function App() {
   ]);
 
   function handleDelete(countryId) {
-    console.log(`delete country: ${countryId}`);
     setCountries(countries.filter((c) => c.id !== countryId));
   }
 
@@ -30,24 +30,25 @@ function App() {
     }
   }
 
-  function getTotalMedalCount(medalType) {
-    return countries.reduce((sum, country) => sum + country[medalType], 0);
+  function handleAddCountry(name) {
+    const newId = Math.max(...countries.map(c => c.id)) + 1;
+    const newCountry = {
+      id: newId,
+      name: name,
+      gold: 0,
+      silver: 0,
+      bronze: 0
+    };
+    setCountries([...countries, newCountry]);
   }
 
-  const totalMedals = getTotalMedalCount('gold') + 
-                      getTotalMedalCount('silver') + 
-                      getTotalMedalCount('bronze');
+  const totalMedals = countries.reduce((total, country) => {
+    return total + country.gold + country.silver + country.bronze;
+  }, 0);
 
   return (
     <div>
-      <header className="app-header">
-        <div>Olympic Medals {totalMedals}</div>
-        <div className="medal-totals">
-          Gold: {getTotalMedalCount('gold')}, 
-          Silver: {getTotalMedalCount('silver')}, 
-          Bronze: {getTotalMedalCount('bronze')}
-        </div>
-      </header>
+      <header className="app-header">Olympic Medals {totalMedals}</header>
       <div className="countries-container">
         {countries.map((country) => (
           <Country 
@@ -59,6 +60,7 @@ function App() {
           />
         ))}
       </div>
+      <NewCountry onAdd={handleAddCountry} />
     </div>
   );
 }
