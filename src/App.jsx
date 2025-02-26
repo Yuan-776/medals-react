@@ -7,10 +7,12 @@ import "./App.css";
 function App() {
   const [countries, setCountries] = useState([]);
   const [loading, setLoading] = useState(true);
-  const apiEndpoint = "/api/country";
+  const apiEndpoint = "https://medals-api-6.azurewebsites.net/api/country";
+
   const handleDelete = async (countryId) => {
     const originalCountries = countries;
-        setCountries(countries.filter((c) => c.id !== countryId));
+    
+    setCountries(countries.filter((c) => c.id !== countryId));
     
     try {
       await axios.delete(`${apiEndpoint}/${countryId}`);
@@ -57,7 +59,6 @@ function App() {
       setCountries(countriesCopy);
     }
   }
-
   useEffect(() => {
     async function fetchData() {
       setLoading(true);
