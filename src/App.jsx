@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState, useEffect } from "react";
 import Country from "./components/Country";
 import NewCountry from "./components/NewCountry";
@@ -6,53 +7,40 @@ import "./App.css";
 function App() {
   const [countries, setCountries] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  const API_URL = "https://medals-api-6.azurewebsites.net/api/country";
-
-  useEffect(() => {
-    fetchCountries();
-  }, []);
-
-  const fetchCountries = async () => {
-    setLoading(true);
+  const apiEndpoint = "/api/country";
+  const handleDelete = async (countryId) => {
+    const originalCountries = countries;
+        setCountries(countries.filter((c) => c.id !== countryId));
+    
     try {
-      const response = await fetch(API_URL);
-      if (!response.ok) {
-        throw new Error(`API error: ${response.status}`);
+      await axios.delete(`${apiEndpoint}/${countryId}`);
+    } catch (ex) {
+      if (ex.response && ex.response.status === 404) {
+        console.log("The record does not exist - it may have already been deleted");
+      } else {
+        console.error("An error occurred while deleting a country:", ex);
+        setCountries(originalCountries);
       }
-      const data = await response.json();
-      setCountries(data);
-      setError(null);
-    } catch (err) {
-      console.error("Error fetching countries:", err);
-      setError("Failed to load countries from API. Using local data.");
-      
-      setCountries([
-        { id: 1, name: "United States", gold: 2, silver: 2, bronze: 3 },
-        { id: 2, name: "China", gold: 3, silver: 1, bronze: 0 },
-        { id: 3, name: "France", gold: 0, silver: 2, bronze: 2 },
-      ]);
-    } finally {
-      setLoading(false);
     }
   };
 
-  async function handleDelete(countryId) {
+  const handleAddCountry = async (name) => {
     try {
-      setCountries(countries.filter((c) => c.id !== countryId));
+      const newCountry = {
+        name: name,
+        gold: 0,
+        silver: 0,
+        bronze: 0
+      };
       
-      const response = await fetch(`${API_URL}/${countryId}`, {
-        method: "DELETE",
-      });
+      const { data: savedCountry } = await axios.post(apiEndpoint, newCountry);
       
-      if (!response.ok) {
-        throw new Error(`Delete failed: ${response.status}`);
-      }
-    } catch (err) {
-      console.error("Error deleting country:", err);
+      setCountries([...countries, savedCountry]);
+    } catch (ex) {
+      console.error("Error adding country:", ex);
+      alert("Failed to add country. Please try again.");
     }
-  }
+  };
 
   function handleIncrement(countryId, medalType) {
     const countriesCopy = [...countries];
@@ -70,40 +58,26 @@ function App() {
     }
   }
 
-  async function handleAddCountry(name) {
-    try {
-      const tempId = Math.max(...countries.map(c => c.id), 0) + 1;
-      const newCountry = {
-        id: tempId,
-        name: name,
-        gold: 0,
-        silver: 0,
-        bronze: 0
-      };
-      
-      setCountries([...countries, newCountry]);
-
-      const response = await fetch(API_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: name,
-          gold: 0,
-          silver: 0,
-          bronze: 0
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error(`Add country failed: ${response.status}`);
+  useEffect(() => {
+    async function fetchData() {
+      setLoading(true);
+      try {
+        const { data: fetchedCountries } = await axios.get(apiEndpoint);
+        setCountries(fetchedCountries);
+      } catch (ex) {
+        console.error("Error fetching countries:", ex);
+        setCountries([
+          { id: 1, name: "United States", gold: 2, silver: 2, bronze: 3 },
+          { id: 2, name: "China", gold: 3, silver: 1, bronze: 0 },
+          { id: 3, name: "France", gold: 0, silver: 2, bronze: 2 }
+        ]);
+      } finally {
+        setLoading(false);
       }
-
-    } catch (err) {
-      console.error("Error adding country:", err);
     }
-  }
+    
+    fetchData();
+  }, []);
 
   const totalMedals = countries.reduce((total, country) => {
     return total + country.gold + country.silver + country.bronze;
@@ -115,14 +89,7 @@ function App() {
 
   return (
     <div>
-      <header className="app-header">
-        Olympic Medals {totalMedals}
-        {error && (
-          <div className="medal-totals" style={{ color: "red" }}>
-            {error}
-          </div>
-        )}
-      </header>
+      <header className="app-header">Olympic Medals {totalMedals}</header>
       <div className="countries-container">
         {countries.map((country) => (
           <Country 
