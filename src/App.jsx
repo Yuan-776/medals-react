@@ -7,8 +7,7 @@ import "./App.css";
 function App() {
   const [countries, setCountries] = useState([]);
   const [loading, setLoading] = useState(true);
-  const apiEndpoint = "https://medals-api-6.azurewebsites.net/api/country";
-
+  const apiEndpoint = "/api/country";
   const handleDelete = async (countryId) => {
     const originalCountries = countries;
     
